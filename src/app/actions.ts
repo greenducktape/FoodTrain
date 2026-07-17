@@ -74,6 +74,44 @@ export async function updatePlanDetails(adminToken: string, formData: FormData) 
   revalidatePlan(plan);
 }
 
+export async function completeSetup(
+  adminToken: string,
+  payload: {
+    allergies: string;
+    generalNotes: string;
+    dates: string[];
+    timeWindow: string;
+    visitWelcome: boolean;
+  }
+) {
+  const plan = await getPlanByAdminToken(adminToken);
+
+  const dates = [...new Set(payload.dates)]
+    .filter((d) => /^\d{4}-\d{2}-\d{2}$/.test(d))
+    .slice(0, 90);
+
+  await db
+    .update(plans)
+    .set({
+      allergies: payload.allergies.trim().slice(0, 2000),
+      generalNotes: payload.generalNotes.trim().slice(0, 2000),
+    })
+    .where(eq(plans.id, plan.id));
+
+  if (dates.length > 0) {
+    await db.insert(planDays).values(
+      dates.map((date) => ({
+        planId: plan.id,
+        date,
+        timeWindow: payload.timeWindow.trim().slice(0, 100),
+        visitWelcome: payload.visitWelcome,
+      }))
+    );
+  }
+
+  revalidatePlan(plan);
+}
+
 export async function addDay(adminToken: string, formData: FormData) {
   const plan = await getPlanByAdminToken(adminToken);
 
@@ -153,6 +191,7 @@ export async function createSignup(publicToken: string, dayId: number, formData:
   });
 
   revalidatePlan(plan);
+  redirect(`/p/${plan.publicToken}?danke=${day.id}`);
 }
 
 export async function updateSignup(publicToken: string, signupId: number, formData: FormData) {
