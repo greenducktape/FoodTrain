@@ -25,10 +25,14 @@ Kein Login nötig – der Zugriff läuft über unerratbare Links.
 
 ```bash
 npm install
-cp .env.example .env.local   # DATABASE_URL eintragen (Neon Connection String)
-npm run db:push              # Tabellen anlegen
+npm run db:push              # Tabellen anlegen (ohne DATABASE_URL: lokale PGlite-DB)
 npm run dev                  # http://localhost:3000
 ```
+
+Ohne `DATABASE_URL` nutzt die App automatisch eine eingebettete
+PGlite-Datenbank im Ordner `.pglite` – es ist also kein Datenbank-Setup
+nötig. Für die echte Datenbank: `cp .env.example .env.local` und den
+Neon-Connection-String eintragen.
 
 ## Deployment (Vercel)
 
@@ -36,6 +40,5 @@ npm run dev                  # http://localhost:3000
 2. Auf [vercel.com](https://vercel.com) das Repo als neues Projekt importieren.
 3. Im Projekt unter **Storage → Create Database → Neon** eine Postgres-Datenbank
    anlegen – `DATABASE_URL` wird automatisch gesetzt.
-4. Einmalig lokal `npm run db:push` mit der Neon-`DATABASE_URL` ausführen
-   (oder `vercel env pull .env.local` und dann `npm run db:push`).
-5. Deployen – fertig.
+4. Neu deployen (Deployments → ⋯ → Redeploy) – die Tabellen werden beim Build
+   automatisch angelegt (`drizzle-kit push` läuft im Build-Schritt). Fertig.
