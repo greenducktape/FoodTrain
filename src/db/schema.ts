@@ -16,6 +16,8 @@ export const plans = pgTable("plans", {
   recipientName: text("recipient_name").notNull(),
   allergies: text("allergies").notNull().default(""),
   generalNotes: text("general_notes").notNull().default(""),
+  notifyEmail: text("notify_email").notNull().default(""),
+  notifyEnabled: boolean("notify_enabled").notNull().default(true),
   createdAt: timestamp("created_at").notNull().defaultNow(),
 });
 

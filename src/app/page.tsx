@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { CreatePlanWizard } from "@/components/CreatePlanWizard";
 
 export default function HomePage() {
@@ -6,7 +7,7 @@ export default function HomePage() {
       <div className="text-center">
         <div className="text-6xl">🌷</div>
         <h1 className="mt-5 text-4xl font-extrabold tracking-tight text-stone-800">
-          Essensplan
+          Kochkette
         </h1>
         <p className="font-hand mt-2 text-3xl text-rose-400">
           von Herzen gekocht
@@ -53,6 +54,15 @@ export default function HomePage() {
 
       <p className="mt-16 text-center text-sm text-stone-400">
         Mit 💛 gemacht für die ersten Wochen zu Hause
+      </p>
+      <p className="mt-3 text-center text-xs text-stone-300">
+        <Link href="/datenschutz" className="hover:text-stone-500">
+          Datenschutz
+        </Link>
+        {" · "}
+        <Link href="/impressum" className="hover:text-stone-500">
+          Impressum
+        </Link>
       </p>
     </main>
   );

@@ -27,9 +27,10 @@ export function AdminWizard({
   const [dates, setDates] = useState<string[]>([]);
   const [timeWindow, setTimeWindow] = useState("");
   const [visitWelcome, setVisitWelcome] = useState(false);
+  const [notifyEmail, setNotifyEmail] = useState("");
   const [pending, startTransition] = useTransition();
 
-  const totalSteps = 5;
+  const totalSteps = 6;
 
   function toggleDate(iso: string) {
     setDates((prev) =>
@@ -45,6 +46,7 @@ export function AdminWizard({
         dates,
         timeWindow,
         visitWelcome,
+        notifyEmail,
       });
       router.refresh();
     });
@@ -138,6 +140,10 @@ export function AdminWizard({
             placeholder="z.B. keine Nüsse, laktosefrei, vegetarisch bevorzugt …"
             className={`mt-6 ${bigTextarea}`}
           />
+          <p className="mt-2 text-xs text-stone-400">
+            Diese Angaben sieht jeder mit eurem Link – tragt nur ein, was eure
+            Helfer wirklich wissen müssen.
+          </p>
           <NavButtons onNext={() => setStep(2)} />
         </div>
       )}
@@ -160,6 +166,10 @@ export function AdminWizard({
             placeholder="z.B. Musterstraße 12 · Boxen bitte beschriften, wir geben alles zurück …"
             className={`mt-6 ${bigTextarea}`}
           />
+          <p className="mt-2 text-xs text-stone-400">
+            Auch das sieht jeder mit eurem Link – die Adresse könnt ihr z.B.
+            auch erst auf Nachfrage teilen.
+          </p>
           <NavButtons onNext={() => setStep(3)} />
         </div>
       )}
@@ -250,6 +260,32 @@ export function AdminWizard({
             </button>
           </div>
 
+          <NavButtons onNext={() => setStep(5)} />
+        </div>
+      )}
+
+      {step === 5 && (
+        <div key="s5" className="animate-slide-in">
+          <h2 className="text-2xl font-bold text-stone-800">
+            Möchtet ihr Bescheid bekommen?
+          </h2>
+          <p className="mt-1 text-stone-500">
+            Wenn ihr mögt, schicken wir euch eine kleine Mail, sobald sich
+            jemand einträgt. Freiwillig – und jederzeit abschaltbar.
+          </p>
+          <input
+            autoFocus
+            type="email"
+            value={notifyEmail}
+            onChange={(e) => setNotifyEmail(e.target.value)}
+            maxLength={200}
+            placeholder="eure@email.de (optional)"
+            className="mt-6 w-full rounded-2xl border-2 border-rose-100 bg-white px-5 py-4 text-lg text-stone-800 placeholder:text-stone-300 focus:border-rose-300 focus:outline-none"
+          />
+          <p className="mt-2 text-xs text-stone-400">
+            Die Adresse wird nur für diese Benachrichtigungen genutzt und mit
+            dem Plan gelöscht.
+          </p>
           <NavButtons
             nextLabel={pending ? "Wird gespeichert …" : "Fertig – Plan anlegen 🌷"}
             onNext={finish}

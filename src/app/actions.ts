@@ -1,10 +1,13 @@
 "use server";
 
-import { and, eq } from "drizzle-orm";
+import { and, eq, inArray, max } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { db } from "@/db";
 import { planDays, plans, signups, type Plan } from "@/db/schema";
+import { addDaysIso } from "@/lib/calendar";
+import { todayIso } from "@/lib/dates";
+import { sendSignupNotification } from "@/lib/email";
 import { generateToken } from "@/lib/token";
 
 function cleanText(value: FormDataEntryValue | null, maxLength = 2000): string {
@@ -41,9 +44,46 @@ function revalidatePlan(plan: Plan) {
   revalidatePath(`/p/${plan.publicToken}`);
 }
 
+/**
+ * Speicherbegrenzung (DSGVO): Pläne, deren letzter Wunschtag mehr als
+ * 180 Tage zurückliegt (oder die seit 180 Tagen keinen Tag haben),
+ * werden samt aller Einträge gelöscht. Läuft nebenbei beim Anlegen
+ * neuer Pläne – Fehler dürfen nichts blockieren.
+ */
+async function cleanupOldPlans(): Promise<void> {
+  try {
+    const cutoffDay = addDaysIso(todayIso(), -180);
+    const cutoffCreated = new Date(Date.now() - 180 * 24 * 60 * 60 * 1000);
+
+    const rows = await db
+      .select({
+        id: plans.id,
+        createdAt: plans.createdAt,
+        lastDay: max(planDays.date),
+      })
+      .from(plans)
+      .leftJoin(planDays, eq(planDays.planId, plans.id))
+      .groupBy(plans.id);
+
+    const stale = rows
+      .filter((row) =>
+        row.lastDay ? row.lastDay < cutoffDay : row.createdAt < cutoffCreated
+      )
+      .map((row) => row.id);
+
+    if (stale.length > 0) {
+      await db.delete(plans).where(inArray(plans.id, stale));
+    }
+  } catch (error) {
+    console.error("Aufräumen alter Pläne fehlgeschlagen:", error);
+  }
+}
+
 export async function createPlan(formData: FormData) {
   const title = requireText(formData.get("title"), "Titel");
   const recipientName = requireText(formData.get("recipientName"), "Name");
+
+  await cleanupOldPlans();
 
   const adminToken = generateToken();
   const publicToken = generateToken();
@@ -82,6 +122,7 @@ export async function completeSetup(
     dates: string[];
     timeWindow: string;
     visitWelcome: boolean;
+    notifyEmail: string;
   }
 ) {
   const plan = await getPlanByAdminToken(adminToken);
@@ -90,11 +131,14 @@ export async function completeSetup(
     .filter((d) => /^\d{4}-\d{2}-\d{2}$/.test(d))
     .slice(0, 90);
 
+  const notifyEmail = payload.notifyEmail.trim().slice(0, 200);
+
   await db
     .update(plans)
     .set({
       allergies: payload.allergies.trim().slice(0, 2000),
       generalNotes: payload.generalNotes.trim().slice(0, 2000),
+      notifyEmail: notifyEmail.includes("@") ? notifyEmail : "",
     })
     .where(eq(plans.id, plan.id));
 
@@ -110,6 +154,30 @@ export async function completeSetup(
   }
 
   revalidatePlan(plan);
+}
+
+export async function updateNotifications(adminToken: string, formData: FormData) {
+  const plan = await getPlanByAdminToken(adminToken);
+
+  const email = cleanText(formData.get("notifyEmail"), 200);
+  await db
+    .update(plans)
+    .set({
+      notifyEmail: email.includes("@") ? email : "",
+      notifyEnabled: formData.get("notifyEnabled") === "on",
+    })
+    .where(eq(plans.id, plan.id));
+
+  revalidatePlan(plan);
+}
+
+export async function deletePlan(adminToken: string) {
+  const plan = await getPlanByAdminToken(adminToken);
+
+  // Löscht per Fremdschlüssel-Kaskade auch alle Tage und Einträge
+  await db.delete(plans).where(eq(plans.id, plan.id));
+
+  redirect("/");
 }
 
 export async function addDay(adminToken: string, formData: FormData) {
@@ -183,12 +251,17 @@ export async function createSignup(publicToken: string, dayId: number, formData:
     .where(and(eq(planDays.id, dayId), eq(planDays.planId, plan.id)));
   if (!day) throw new Error("Tag nicht gefunden.");
 
+  const helperName = requireText(formData.get("helperName"), "Name", 100);
+  const dish = requireText(formData.get("dish"), "Gericht", 200);
+
   await db.insert(signups).values({
     planDayId: day.id,
-    helperName: requireText(formData.get("helperName"), "Name", 100),
-    dish: requireText(formData.get("dish"), "Gericht", 200),
+    helperName,
+    dish,
     note: cleanText(formData.get("note"), 500),
   });
+
+  await sendSignupNotification(plan, day, helperName, dish);
 
   revalidatePlan(plan);
   redirect(`/p/${plan.publicToken}?danke=${day.id}`);

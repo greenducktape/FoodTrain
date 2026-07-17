@@ -1,21 +1,28 @@
 import type { Metadata } from "next";
-import { Caveat, Nunito } from "next/font/google";
+import { Fraunces, Karla, Shadows_Into_Light } from "next/font/google";
 import "./globals.css";
 
-const nunito = Nunito({
+const fraunces = Fraunces({
   subsets: ["latin"],
-  variable: "--font-nunito",
+  variable: "--font-fraunces",
   display: "swap",
 });
 
-const caveat = Caveat({
+const karla = Karla({
   subsets: ["latin"],
-  variable: "--font-caveat",
+  variable: "--font-karla",
+  display: "swap",
+});
+
+const shadows = Shadows_Into_Light({
+  weight: "400",
+  subsets: ["latin"],
+  variable: "--font-shadows",
   display: "swap",
 });
 
 export const metadata: Metadata = {
-  title: "Essensplan – von Herzen gekocht",
+  title: "Kochkette – von Herzen gekocht",
   description:
     "Gemeinsam Essen organisieren für Menschen, die gerade Liebe und Unterstützung brauchen.",
 };
@@ -26,7 +33,7 @@ export default function RootLayout({
   return (
     <html lang="de">
       <body
-        className={`${nunito.variable} ${caveat.variable} min-h-screen bg-[#FDF7F2] font-sans text-stone-700 antialiased`}
+        className={`${fraunces.variable} ${karla.variable} ${shadows.variable} min-h-screen bg-[#FDF7F2] font-sans text-stone-700 antialiased`}
       >
         {children}
       </body>

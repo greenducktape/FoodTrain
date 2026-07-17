@@ -6,7 +6,9 @@ import {
   addDay,
   adminDeleteSignup,
   deleteDay,
+  deletePlan,
   updateDay,
+  updateNotifications,
   updatePlanDetails,
 } from "@/app/actions";
 import { AdminWizard } from "@/components/AdminWizard";
@@ -329,6 +331,10 @@ export default async function AdminPage({
                 className={inputClass}
               />
             </div>
+            <p className="text-xs text-stone-400">
+              Allergien und Hinweise sieht jeder mit dem öffentlichen Link –
+              bitte nur eintragen, was eure Helfer wirklich wissen müssen.
+            </p>
             <button type="submit" className={saveButton}>
               Speichern
             </button>
@@ -336,8 +342,90 @@ export default async function AdminPage({
         </details>
       </section>
 
+      {/* Benachrichtigungen */}
+      <section className="mt-8">
+        <details className="rounded-3xl bg-white shadow-sm ring-1 ring-rose-100">
+          <summary className="cursor-pointer p-5 font-semibold text-stone-700">
+            🔔 Benachrichtigungen
+            <span className="mt-1 block text-sm font-normal text-stone-400">
+              {plan.notifyEmail && plan.notifyEnabled
+                ? `Aktiv – Mail an ${plan.notifyEmail} bei jedem neuen Eintrag`
+                : "Aus – ihr bekommt keine Mails"}
+            </span>
+          </summary>
+          <form
+            action={updateNotifications.bind(null, adminToken)}
+            className="space-y-4 border-t border-rose-50 p-5"
+          >
+            <div>
+              <label htmlFor="notifyEmail" className="block text-sm font-semibold text-stone-600">
+                Eure E-Mail-Adresse
+              </label>
+              <input
+                id="notifyEmail"
+                name="notifyEmail"
+                type="email"
+                maxLength={200}
+                defaultValue={plan.notifyEmail}
+                placeholder="eure@email.de"
+                className={inputClass}
+              />
+            </div>
+            <label className="flex items-center gap-2 text-sm text-stone-600">
+              <input
+                type="checkbox"
+                name="notifyEnabled"
+                defaultChecked={plan.notifyEnabled}
+                className="h-4 w-4 rounded border-rose-200 text-rose-400 focus:ring-rose-300"
+              />
+              Mail schicken, wenn sich jemand einträgt
+            </label>
+            <p className="text-xs text-stone-400">
+              Die Adresse wird nur dafür genutzt und beim Löschen des Plans mit
+              entfernt. Feld leeren + Speichern schaltet alles ab.
+            </p>
+            <button type="submit" className={saveButton}>
+              Speichern
+            </button>
+          </form>
+        </details>
+      </section>
+
+      {/* Plan löschen */}
+      <section className="mt-8">
+        <details className="rounded-3xl bg-white shadow-sm ring-1 ring-rose-100">
+          <summary className="cursor-pointer p-5 text-sm font-semibold text-stone-400 hover:text-stone-600">
+            Plan endgültig löschen
+          </summary>
+          <div className="border-t border-rose-50 p-5">
+            <p className="text-sm text-stone-500">
+              Löscht diesen Plan mit allen Wunschtagen, Einträgen und eurer
+              E-Mail-Adresse – endgültig und ohne Wiederherstellung. Beide Links
+              funktionieren danach nicht mehr.
+            </p>
+            <form action={deletePlan.bind(null, adminToken)} className="mt-4">
+              <button
+                type="submit"
+                className="rounded-full bg-red-50 px-6 py-2.5 font-semibold text-red-600 ring-1 ring-red-200 transition hover:bg-red-100"
+              >
+                Ja, alles löschen
+              </button>
+            </form>
+          </div>
+        </details>
+      </section>
+
       <p className="mt-12 text-center text-sm text-stone-400">
         Alles Liebe für die erste Zeit 💛
+      </p>
+      <p className="mt-3 text-center text-xs text-stone-300">
+        <Link href="/datenschutz" className="hover:text-stone-500">
+          Datenschutz
+        </Link>
+        {" · "}
+        <Link href="/impressum" className="hover:text-stone-500">
+          Impressum
+        </Link>
       </p>
     </main>
   );

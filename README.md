@@ -1,7 +1,8 @@
-# Essensplan 🍲
+# Kochkette 🍲
 
-Eine kleine Web-App, um gemeinsam Essen für eine Familie zu organisieren, die
-gerade Unterstützung braucht (z.B. nach der Geburt eines Kindes).
+*von Herzen gekocht* — eine kleine Web-App, um gemeinsam Essen für eine Familie
+zu organisieren, die gerade Unterstützung braucht (z.B. nach der Geburt eines
+Kindes). Live unter [kochkette.com](https://kochkette.com).
 
 ## So funktioniert's
 
@@ -42,3 +43,25 @@ Neon-Connection-String eintragen.
    anlegen – `DATABASE_URL` wird automatisch gesetzt.
 4. Neu deployen (Deployments → ⋯ → Redeploy) – die Tabellen werden beim Build
    automatisch angelegt (`drizzle-kit push` läuft im Build-Schritt). Fertig.
+
+## Mail-Benachrichtigungen (optional)
+
+Die Familie kann eine E-Mail hinterlegen und bekommt eine Nachricht, sobald
+sich jemand einträgt. Versand über [Resend](https://resend.com):
+
+1. Resend-Konto anlegen, Domain `kochkette.com` verifizieren (DNS-Einträge
+   bei Cloudflare setzen).
+2. In Vercel die Umgebungsvariablen setzen:
+   - `RESEND_API_KEY` – API-Key aus Resend
+   - `EMAIL_FROM` – z.B. `Kochkette <post@kochkette.com>` (optional)
+   - `APP_URL` – `https://kochkette.com` (für Links in den Mails)
+3. Ohne `RESEND_API_KEY` werden einfach keine Mails verschickt – die App
+   funktioniert trotzdem vollständig.
+
+## Datenschutz
+
+- Daten liegen bei Neon in Frankfurt (EU), Funktionen laufen in `fra1`.
+- Pläne werden 180 Tage nach dem letzten Wunschtag automatisch gelöscht.
+- Familien können ihren Plan jederzeit selbst vollständig löschen.
+- Vor dem öffentlichen Teilen: Platzhalter in `src/app/impressum/page.tsx`
+  mit echten Angaben füllen.

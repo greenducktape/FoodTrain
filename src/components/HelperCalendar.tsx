@@ -26,6 +26,14 @@ function formatDateLong(isoDate: string): string {
   }).format(new Date(`${isoDate}T00:00:00`));
 }
 
+function formatDateShort(isoDate: string): string {
+  return new Intl.DateTimeFormat("de-DE", {
+    weekday: "short",
+    day: "numeric",
+    month: "long",
+  }).format(new Date(`${isoDate}T00:00:00`));
+}
+
 export function HelperCalendar({
   publicToken,
   days,
@@ -218,6 +226,53 @@ export function HelperCalendar({
             </button>
           </form>
         </div>
+      )}
+
+      {/* Übersicht: was schon gekocht wird */}
+      {days.length > 0 && (
+        <section className="mt-12">
+          <h3 className="text-center text-xl font-bold text-stone-800">
+            Was schon gekocht wird
+          </h3>
+          <p className="font-hand mt-1 text-center text-2xl text-rose-400">
+            das Menü der nächsten Tage
+          </p>
+          <ul className="mt-5 space-y-2">
+            {days.map((d) => (
+              <li key={d.id}>
+                <button
+                  type="button"
+                  onClick={() => setSelected(d.date)}
+                  className={`w-full rounded-2xl p-4 text-left transition ${
+                    d.date === selected
+                      ? "bg-white shadow-md ring-2 ring-rose-300"
+                      : d.signups.length > 0
+                        ? "bg-white shadow-sm ring-1 ring-rose-100 hover:ring-rose-200"
+                        : "border-2 border-dashed border-rose-200 bg-transparent hover:bg-rose-50/50"
+                  }`}
+                >
+                  <p className="text-sm font-semibold text-stone-500">
+                    {formatDateShort(d.date)}
+                  </p>
+                  {d.signups.length > 0 ? (
+                    <ul className="mt-1 space-y-0.5">
+                      {d.signups.map((signup) => (
+                        <li key={signup.id} className="text-stone-700">
+                          <span className="font-semibold">{signup.helperName}:</span>{" "}
+                          {signup.dish}
+                        </li>
+                      ))}
+                    </ul>
+                  ) : (
+                    <p className="mt-1 text-rose-400">
+                      noch frei – trag dich ein 💛
+                    </p>
+                  )}
+                </button>
+              </li>
+            ))}
+          </ul>
+        </section>
       )}
     </div>
   );

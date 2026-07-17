@@ -1,4 +1,5 @@
 import { eq } from "drizzle-orm";
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import { HelperCalendar, type HelperDay } from "@/components/HelperCalendar";
 import { db } from "@/db";
@@ -140,7 +141,16 @@ export default async function PublicPage({
       </section>
 
       <p className="mt-14 text-center text-sm text-stone-400">
-        Mit 💛 organisiert über Essensplan
+        Mit 💛 organisiert über Kochkette
+      </p>
+      <p className="mt-3 text-center text-xs text-stone-300">
+        <Link href="/datenschutz" className="hover:text-stone-500">
+          Datenschutz
+        </Link>
+        {" · "}
+        <Link href="/impressum" className="hover:text-stone-500">
+          Impressum
+        </Link>
       </p>
     </main>
   );

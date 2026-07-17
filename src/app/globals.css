@@ -1,12 +1,21 @@
 @import "tailwindcss";
 
 @theme {
-  --font-sans: var(--font-nunito), -apple-system, BlinkMacSystemFont, "Segoe UI",
+  --font-sans: var(--font-karla), -apple-system, BlinkMacSystemFont, "Segoe UI",
     sans-serif;
 }
 
+/* Überschriften in Fraunces – warm und mit Charakter */
+h1,
+h2,
+h3,
+.font-display {
+  font-family: var(--font-fraunces), Georgia, serif;
+}
+
+/* Handschrift-Akzente */
 .font-hand {
-  font-family: var(--font-caveat), cursive;
+  font-family: var(--font-shadows), cursive;
 }
 
 /* Sanfte Einblend-Animation für Wizard-Slides */
