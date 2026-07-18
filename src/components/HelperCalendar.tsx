@@ -15,8 +15,7 @@ export type HelperDay = {
   signups: { id: number; helperName: string; dish: string; note: string }[];
 };
 
-const inputClass =
-  "mt-1 w-full rounded-xl border-2 border-rose-100 bg-white px-4 py-2.5 text-stone-800 placeholder:text-stone-300 focus:border-rose-300 focus:outline-none";
+const lineInput = "input-line w-full text-base";
 
 function formatDateLong(isoDate: string): string {
   return new Intl.DateTimeFormat("de-DE", {
@@ -69,11 +68,11 @@ export function HelperCalendar({
 
       <div className="mt-3 flex justify-center gap-5 text-xs text-stone-400">
         <span className="flex items-center gap-1.5">
-          <span className="h-3 w-3 rounded-full bg-rose-50 ring-1 ring-rose-200" />
+          <span className="chip-warm h-3 w-3 rounded-full ring-1 ring-rose-200" />
           noch frei
         </span>
         <span className="flex items-center gap-1.5">
-          <span className="h-3 w-3 rounded-full bg-emerald-50 ring-1 ring-emerald-200" />
+          <span className="chip-sage h-3 w-3 rounded-full ring-1 ring-emerald-100" />
           schon versorgt
         </span>
       </div>
@@ -85,17 +84,17 @@ export function HelperCalendar({
       )}
 
       {day && (
-        <div key={day.id} className="animate-slide-in mt-6 rounded-3xl bg-white p-6 shadow-sm ring-1 ring-rose-100">
+        <div key={day.id} className="card-warm animate-slide-in mt-6 p-6">
           <h3 className="text-xl font-bold text-stone-800">
             {formatDateLong(day.date)}
           </h3>
           <div className="mt-2 flex flex-wrap gap-2 text-sm">
             {day.timeWindow && (
-              <span className="rounded-full bg-rose-50 px-3 py-1 text-rose-500">
+              <span className="chip-warm rounded-full px-3 py-1">
                 🕐 {day.timeWindow}
               </span>
             )}
-            <span className="rounded-full bg-rose-50 px-3 py-1 text-rose-500">
+            <span className="chip-warm rounded-full px-3 py-1">
               {day.visitWelcome
                 ? "🤗 Kurzer Besuch ist willkommen"
                 : "🚪 Bitte vor die Tür stellen"}
@@ -110,7 +109,10 @@ export function HelperCalendar({
               </p>
               <ul className="mt-2 space-y-2">
                 {day.signups.map((signup) => (
-                  <li key={signup.id} className="rounded-2xl bg-[#FDF7F2] p-4">
+                  <li
+                    key={signup.id}
+                    className="rounded-2xl bg-gradient-to-br from-[#FBF1E9] to-[#F9EAE4] p-4"
+                  >
                     <p className="font-semibold text-stone-700">
                       💛 {signup.helperName} bringt {signup.dish}
                     </p>
@@ -130,21 +132,24 @@ export function HelperCalendar({
                           required
                           maxLength={100}
                           defaultValue={signup.helperName}
-                          className={inputClass}
+                          aria-label="Name"
+                          className={lineInput}
                         />
                         <input
                           name="dish"
                           required
                           maxLength={200}
                           defaultValue={signup.dish}
-                          className={inputClass}
+                          aria-label="Gericht"
+                          className={lineInput}
                         />
                         <input
                           name="note"
                           maxLength={500}
                           defaultValue={signup.note}
                           placeholder="Notiz (optional)"
-                          className={inputClass}
+                          aria-label="Notiz"
+                          className={lineInput}
                         />
                         <button
                           type="submit"
@@ -177,50 +182,39 @@ export function HelperCalendar({
 
           <form
             action={createSignup.bind(null, publicToken, day.id)}
-            className="mt-6 space-y-4 rounded-2xl bg-rose-50/60 p-5"
+            className="mt-6"
           >
             <p className="font-semibold text-stone-700">
               🍲 Ich bringe an diesem Tag etwas vorbei
             </p>
-            <div>
-              <label className="block text-sm font-semibold text-stone-600">
-                Dein Name
-              </label>
+            <div className="mt-4 space-y-5">
               <input
                 name="helperName"
                 required
                 maxLength={100}
-                placeholder="z.B. Familie Schmidt"
-                className={inputClass}
+                placeholder="Dein Name"
+                aria-label="Dein Name"
+                className="input-line w-full text-lg"
               />
-            </div>
-            <div>
-              <label className="block text-sm font-semibold text-stone-600">
-                Was möchtest du mitbringen?
-              </label>
               <input
                 name="dish"
                 required
                 maxLength={200}
-                placeholder="z.B. Lasagne und ein bisschen Salat"
-                className={inputClass}
+                placeholder="Was bringst du mit? – z.B. Lasagne und Salat"
+                aria-label="Was bringst du mit?"
+                className="input-line w-full text-lg"
               />
-            </div>
-            <div>
-              <label className="block text-sm font-semibold text-stone-600">
-                Möchtest du noch etwas sagen?{" "}
-                <span className="font-normal text-stone-400">(optional)</span>
-              </label>
               <input
                 name="note"
                 maxLength={500}
-                placeholder="z.B. ich komme gegen 18 Uhr"
-                className={inputClass}
+                placeholder="Noch etwas? – z.B. ich komme gegen 18 Uhr (optional)"
+                aria-label="Notiz"
+                className="input-line w-full text-lg"
               />
             </div>
             <button
               type="submit"
-              className="w-full rounded-full bg-rose-400 px-6 py-3.5 text-lg font-semibold text-white shadow-md shadow-rose-200 transition hover:bg-rose-500"
+              className="btn-warm mt-7 w-full rounded-full px-6 py-3.5 text-lg font-semibold text-white"
             >
               Eintragen 💛
             </button>
@@ -243,12 +237,12 @@ export function HelperCalendar({
                 <button
                   type="button"
                   onClick={() => setSelected(d.date)}
-                  className={`w-full rounded-2xl p-4 text-left transition ${
+                  className={`w-full rounded-3xl p-4 text-left transition ${
                     d.date === selected
-                      ? "bg-white shadow-md ring-2 ring-rose-300"
+                      ? "card-warm ring-2 ring-rose-300"
                       : d.signups.length > 0
-                        ? "bg-white shadow-sm ring-1 ring-rose-100 hover:ring-rose-200"
-                        : "border-2 border-dashed border-rose-200 bg-transparent hover:bg-rose-50/50"
+                        ? "card-warm hover:brightness-[1.02]"
+                        : "border-2 border-dashed border-rose-200 bg-transparent hover:bg-rose-50/40"
                   }`}
                 >
                   <p className="text-sm font-semibold text-stone-500">

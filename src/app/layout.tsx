@@ -33,7 +33,7 @@ export default function RootLayout({
   return (
     <html lang="de">
       <body
-        className={`${fraunces.variable} ${karla.variable} ${shadows.variable} min-h-screen bg-[#FDF7F2] font-sans text-stone-700 antialiased`}
+        className={`${fraunces.variable} ${karla.variable} ${shadows.variable} min-h-screen font-sans text-stone-700 antialiased`}
       >
         {children}
       </body>

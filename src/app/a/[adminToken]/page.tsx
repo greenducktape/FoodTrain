@@ -20,11 +20,10 @@ import { loadDaysWithSignups } from "@/lib/queries";
 
 export const dynamic = "force-dynamic";
 
-const inputClass =
-  "mt-1 w-full rounded-xl border-2 border-rose-100 bg-white px-4 py-2.5 text-stone-800 placeholder:text-stone-300 focus:border-rose-300 focus:outline-none";
+const inputClass = "input-line mt-1 w-full text-base";
 
 const saveButton =
-  "rounded-full bg-rose-400 px-6 py-2.5 font-semibold text-white shadow-sm shadow-rose-200 transition hover:bg-rose-500";
+  "btn-warm rounded-full px-6 py-2.5 font-semibold text-white";
 
 export default async function AdminPage({
   params,
@@ -66,7 +65,7 @@ export default async function AdminPage({
       </h1>
 
       {/* Link teilen */}
-      <section className="mt-8 rounded-3xl bg-white p-6 shadow-sm ring-1 ring-rose-100">
+      <section className="card-warm mt-8 p-6">
         <h2 className="text-lg font-bold text-stone-800">💌 Ladet eure Helfer ein</h2>
         <p className="mt-1 text-stone-500">
           Schickt diesen Link an alle, die etwas kochen möchten:
@@ -74,7 +73,7 @@ export default async function AdminPage({
         <div className="mt-3 flex items-center gap-2">
           <Link
             href={`/p/${plan.publicToken}`}
-            className="min-w-0 flex-1 truncate rounded-xl bg-rose-50 px-4 py-2.5 text-sm text-rose-500 underline"
+            className="chip-warm min-w-0 flex-1 truncate rounded-xl px-4 py-2.5 text-sm underline"
           >
             {publicUrl}
           </Link>
@@ -84,7 +83,7 @@ export default async function AdminPage({
           href={whatsappUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="mt-3 block rounded-full bg-emerald-500 px-6 py-3 text-center font-semibold text-white shadow-sm transition hover:bg-emerald-600"
+          className="btn-sage mt-3 block rounded-full px-6 py-3 text-center font-semibold text-white"
         >
           Per WhatsApp teilen
         </a>
@@ -114,7 +113,7 @@ export default async function AdminPage({
           {days.map((day) => (
             <details
               key={day.id}
-              className="group rounded-3xl bg-white shadow-sm ring-1 ring-rose-100"
+              className="card-warm group"
             >
               <summary className="flex cursor-pointer items-center justify-between gap-3 p-5">
                 <div className="min-w-0">
@@ -133,8 +132,8 @@ export default async function AdminPage({
                 <span
                   className={`shrink-0 rounded-full px-3 py-1 text-xs font-semibold ${
                     day.signups.length > 0
-                      ? "bg-emerald-50 text-emerald-600"
-                      : "bg-rose-50 text-rose-500"
+                      ? "chip-sage"
+                      : "chip-warm"
                   }`}
                 >
                   {day.signups.length > 0
@@ -149,7 +148,7 @@ export default async function AdminPage({
                     {day.signups.map((signup) => (
                       <li
                         key={signup.id}
-                        className="flex items-start justify-between gap-3 rounded-2xl bg-[#FDF7F2] p-4"
+                        className="flex items-start justify-between gap-3 rounded-2xl bg-gradient-to-br from-[#FBF1E9] to-[#F9EAE4] p-4"
                       >
                         <div className="min-w-0 text-sm">
                           <p className="font-semibold text-stone-700">
@@ -203,7 +202,7 @@ export default async function AdminPage({
                       type="checkbox"
                       name="visitWelcome"
                       defaultChecked={day.visitWelcome}
-                      className="h-4 w-4 rounded border-rose-200 text-rose-400 focus:ring-rose-300"
+                      className="h-4 w-4 accent-[#e56f7b]"
                     />
                     Besuch ist an diesem Tag willkommen
                   </label>
@@ -227,7 +226,7 @@ export default async function AdminPage({
         </div>
 
         {/* Tag hinzufügen */}
-        <details className="mt-4 rounded-3xl bg-white shadow-sm ring-1 ring-rose-100">
+        <details className="card-warm mt-4">
           <summary className="cursor-pointer p-5 font-semibold text-rose-500">
             ＋ Weiteren Wunschtag hinzufügen
           </summary>
@@ -256,7 +255,7 @@ export default async function AdminPage({
               <input
                 type="checkbox"
                 name="visitWelcome"
-                className="h-4 w-4 rounded border-rose-200 text-rose-400 focus:ring-rose-300"
+                className="h-4 w-4 accent-[#e56f7b]"
               />
               Besuch ist an diesem Tag willkommen
             </label>
@@ -275,7 +274,7 @@ export default async function AdminPage({
 
       {/* Angaben */}
       <section className="mt-8">
-        <details className="rounded-3xl bg-white shadow-sm ring-1 ring-rose-100">
+        <details className="card-warm">
           <summary className="cursor-pointer p-5 font-semibold text-stone-700">
             ✏️ Eure Angaben bearbeiten
             <span className="mt-1 block text-sm font-normal text-stone-400">
@@ -344,7 +343,7 @@ export default async function AdminPage({
 
       {/* Benachrichtigungen */}
       <section className="mt-8">
-        <details className="rounded-3xl bg-white shadow-sm ring-1 ring-rose-100">
+        <details className="card-warm">
           <summary className="cursor-pointer p-5 font-semibold text-stone-700">
             🔔 Benachrichtigungen
             <span className="mt-1 block text-sm font-normal text-stone-400">
@@ -376,7 +375,7 @@ export default async function AdminPage({
                 type="checkbox"
                 name="notifyEnabled"
                 defaultChecked={plan.notifyEnabled}
-                className="h-4 w-4 rounded border-rose-200 text-rose-400 focus:ring-rose-300"
+                className="h-4 w-4 accent-[#e56f7b]"
               />
               Mail schicken, wenn sich jemand einträgt
             </label>
@@ -393,7 +392,7 @@ export default async function AdminPage({
 
       {/* Plan löschen */}
       <section className="mt-8">
-        <details className="rounded-3xl bg-white shadow-sm ring-1 ring-rose-100">
+        <details className="card-warm">
           <summary className="cursor-pointer p-5 text-sm font-semibold text-stone-400 hover:text-stone-600">
             Plan endgültig löschen
           </summary>

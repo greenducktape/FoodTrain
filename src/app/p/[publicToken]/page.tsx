@@ -70,7 +70,7 @@ export default async function PublicPage({
       </div>
 
       {dankeDay && (
-        <section className="mt-8 rounded-3xl bg-emerald-50 p-6 text-center ring-1 ring-emerald-100">
+        <section className="mt-8 rounded-3xl bg-gradient-to-b from-[#F1F8F1] to-[#E5F1E8] p-6 text-center shadow-[0_14px_34px_-16px_rgba(95,164,113,0.35)] ring-1 ring-emerald-100">
           <p className="text-2xl">🌷</p>
           <p className="mt-2 text-lg font-bold text-emerald-800">
             Danke dir – du bist eingetragen!
@@ -104,7 +104,7 @@ export default async function PublicPage({
       {(plan.allergies || plan.generalNotes) && (
         <section className="mt-8 space-y-3">
           {plan.allergies && (
-            <div className="rounded-3xl bg-white p-5 shadow-sm ring-1 ring-rose-100">
+            <div className="card-warm p-5">
               <p className="font-semibold text-stone-700">
                 🌿 Bitte beim Kochen beachten
               </p>
@@ -114,7 +114,7 @@ export default async function PublicPage({
             </div>
           )}
           {plan.generalNotes && (
-            <div className="rounded-3xl bg-white p-5 shadow-sm ring-1 ring-rose-100">
+            <div className="card-warm p-5">
               <p className="font-semibold text-stone-700">💬 Gut zu wissen</p>
               <p className="mt-1 whitespace-pre-line leading-relaxed text-stone-500">
                 {plan.generalNotes}
@@ -126,7 +126,7 @@ export default async function PublicPage({
 
       <section className="mt-8">
         {days.length === 0 ? (
-          <p className="rounded-3xl bg-white p-8 text-center text-stone-400 shadow-sm ring-1 ring-rose-100">
+          <p className="card-warm p-8 text-center text-stone-400">
             Gerade sind keine offenen Tage eingetragen – schau bald wieder
             vorbei. 💛
           </p>

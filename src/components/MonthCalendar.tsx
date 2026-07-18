@@ -53,7 +53,7 @@ export function MonthCalendar({
   ];
 
   return (
-    <div className="mx-auto w-full max-w-sm rounded-3xl bg-white p-5 shadow-sm ring-1 ring-rose-100">
+    <div className="card-warm mx-auto w-full max-w-sm p-5">
       <div className="flex items-center justify-between">
         <button
           type="button"
@@ -96,11 +96,11 @@ export function MonthCalendar({
           let cls =
             "relative mx-auto flex h-10 w-10 items-center justify-center rounded-full text-sm transition ";
           if (isSelected) {
-            cls += "bg-rose-400 font-semibold text-white shadow-md shadow-rose-200";
+            cls += "btn-warm font-semibold text-white";
           } else if (marker === "free") {
-            cls += "bg-rose-50 font-semibold text-rose-600 ring-1 ring-rose-200 hover:bg-rose-100";
+            cls += "chip-warm font-semibold ring-1 ring-rose-200 hover:brightness-105";
           } else if (marker === "taken") {
-            cls += "bg-emerald-50 font-semibold text-emerald-600 ring-1 ring-emerald-100 hover:bg-emerald-100";
+            cls += "chip-sage font-semibold ring-1 ring-emerald-100 hover:brightness-105";
           } else if (selectable) {
             cls += "text-stone-600 hover:bg-rose-50";
           } else {

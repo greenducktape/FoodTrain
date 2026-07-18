@@ -18,6 +18,80 @@ h3,
   font-family: var(--font-shadows), cursive;
 }
 
+/* Warmes Küchenlicht: sanfte organische Verläufe statt flacher Fläche */
+body {
+  background:
+    radial-gradient(55rem 38rem at 88% -12%, rgba(242, 166, 121, 0.16), transparent 60%),
+    radial-gradient(45rem 32rem at -12% 34%, rgba(229, 111, 123, 0.09), transparent 60%),
+    radial-gradient(40rem 30rem at 110% 85%, rgba(244, 196, 144, 0.12), transparent 55%),
+    linear-gradient(180deg, #fff9f3 0%, #faeee5 100%);
+  background-attachment: fixed;
+}
+
+/* Karten: hauchzarter Verlauf von Weiß in warmes Creme */
+.card-warm {
+  border-radius: 1.75rem;
+  background-image: linear-gradient(180deg, #ffffff 0%, #fff5ed 100%);
+  border: 1px solid rgba(240, 190, 168, 0.35);
+  box-shadow: 0 14px 34px -16px rgba(214, 120, 90, 0.22);
+}
+
+/* Primär-Button: Pfirsich → warmes Rosé */
+.btn-warm {
+  background-image: linear-gradient(135deg, #f09a6f 0%, #e56f7b 100%);
+  box-shadow: 0 10px 24px -10px rgba(229, 111, 123, 0.5);
+  transition: filter 0.15s ease, transform 0.15s ease, box-shadow 0.15s ease;
+}
+.btn-warm:hover:not(:disabled) {
+  filter: brightness(1.06) saturate(1.05);
+  box-shadow: 0 12px 28px -10px rgba(229, 111, 123, 0.55);
+}
+.btn-warm:active:not(:disabled) {
+  transform: scale(0.98);
+}
+
+/* Sekundär: Salbeigrün für Teilen/Bestätigung */
+.btn-sage {
+  background-image: linear-gradient(135deg, #8bbd92 0%, #5fa471 100%);
+  box-shadow: 0 10px 24px -10px rgba(95, 164, 113, 0.45);
+  transition: filter 0.15s ease, transform 0.15s ease;
+}
+.btn-sage:hover {
+  filter: brightness(1.05);
+}
+
+/* Eingaben: eine warme Linie statt weißer Box */
+.input-line {
+  background: transparent;
+  border: 0;
+  border-bottom: 2px solid #f0cfc0;
+  border-radius: 0;
+  padding: 0.5rem 0.125rem;
+  color: #44403c;
+  transition: border-color 0.15s ease;
+}
+.input-line:focus {
+  outline: none;
+  border-bottom-color: #e56f7b;
+}
+.input-line::placeholder {
+  color: #d9beb0;
+}
+textarea.input-line {
+  line-height: 1.6;
+  resize: none;
+}
+
+/* Warme Info-Chips */
+.chip-warm {
+  background-image: linear-gradient(135deg, #fff0e6 0%, #fde5e2 100%);
+  color: #bb5a50;
+}
+.chip-sage {
+  background-image: linear-gradient(135deg, #eef7ee 0%, #e2f0e4 100%);
+  color: #4d8b5e;
+}
+
 /* Sanfte Einblend-Animation für Wizard-Slides */
 @keyframes slide-in {
   from {

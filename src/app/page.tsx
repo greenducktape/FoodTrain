@@ -18,7 +18,7 @@ export default function HomePage() {
         </p>
       </div>
 
-      <div className="mt-12 rounded-3xl bg-white p-7 shadow-sm ring-1 ring-rose-100 sm:p-9">
+      <div className="card-warm mt-12 p-7 sm:p-9">
         <CreatePlanWizard />
       </div>
 
@@ -41,7 +41,7 @@ export default function HomePage() {
           },
         ].map((item) => (
           <div key={item.title} className="flex items-start gap-4">
-            <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-white text-2xl shadow-sm ring-1 ring-rose-100">
+            <div className="chip-warm flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl text-2xl shadow-sm">
               {item.emoji}
             </div>
             <div>

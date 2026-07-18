@@ -5,9 +5,6 @@ import { useState, useTransition } from "react";
 import { completeSetup } from "@/app/actions";
 import { MonthCalendar } from "@/components/MonthCalendar";
 
-const bigTextarea =
-  "w-full rounded-2xl border-2 border-rose-100 bg-white px-5 py-4 text-lg text-stone-800 placeholder:text-stone-300 focus:border-rose-300 focus:outline-none";
-
 function todayIso(): string {
   const now = new Date();
   return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}`;
@@ -30,7 +27,7 @@ export function AdminWizard({
   const [notifyEmail, setNotifyEmail] = useState("");
   const [pending, startTransition] = useTransition();
 
-  const totalSteps = 6;
+  const contentSteps = 3;
 
   function toggleDate(iso: string) {
     setDates((prev) =>
@@ -76,7 +73,7 @@ export function AdminWizard({
           type="button"
           onClick={onNext}
           disabled={nextDisabled || pending}
-          className="flex-1 rounded-full bg-rose-400 px-6 py-3.5 text-lg font-semibold text-white shadow-md shadow-rose-200 transition hover:bg-rose-500 disabled:opacity-40"
+          className="btn-warm flex-1 rounded-full px-6 py-3.5 text-lg font-semibold text-white disabled:opacity-40"
         >
           {nextLabel}
         </button>
@@ -85,14 +82,14 @@ export function AdminWizard({
   }
 
   return (
-    <div className="mx-auto max-w-lg px-5 py-14">
+    <main className="mx-auto max-w-lg px-5 py-14">
       {step > 0 && (
         <div className="mb-8 flex justify-center gap-2">
-          {Array.from({ length: totalSteps - 1 }, (_, i) => (
+          {Array.from({ length: contentSteps }, (_, i) => (
             <div
               key={i}
               className={`h-1.5 w-8 rounded-full transition ${
-                i < step ? "bg-rose-400" : "bg-rose-100"
+                i < step ? "btn-warm" : "bg-rose-100"
               }`}
             />
           ))}
@@ -109,13 +106,13 @@ export function AdminWizard({
             alles Liebe zum Baby!
           </p>
           <p className="mx-auto mt-5 max-w-md text-lg leading-relaxed text-stone-500">
-            In den nächsten Minuten richten wir euren Essensplan ein. Ein paar
-            kleine Fragen – ganz in eurem Tempo, alles lässt sich später ändern.
+            Drei kleine Fragen, dann steht euer Plan für {recipientName}. Alles
+            ist freiwillig und lässt sich später ändern.
           </p>
           <button
             type="button"
             onClick={() => setStep(1)}
-            className="mt-8 rounded-full bg-rose-400 px-10 py-3.5 text-lg font-semibold text-white shadow-md shadow-rose-200 transition hover:bg-rose-500"
+            className="btn-warm mt-8 rounded-full px-10 py-3.5 text-lg font-semibold text-white"
           >
             Los geht&rsquo;s
           </button>
@@ -124,58 +121,6 @@ export function AdminWizard({
 
       {step === 1 && (
         <div key="s1" className="animate-slide-in">
-          <h2 className="text-2xl font-bold text-stone-800">
-            Gibt es Allergien oder Unverträglichkeiten?
-          </h2>
-          <p className="mt-1 text-stone-500">
-            Damit alle wissen, was auf den Tisch darf. Ihr könnt das Feld auch
-            leer lassen.
-          </p>
-          <textarea
-            autoFocus
-            value={allergies}
-            onChange={(e) => setAllergies(e.target.value)}
-            rows={4}
-            maxLength={2000}
-            placeholder="z.B. keine Nüsse, laktosefrei, vegetarisch bevorzugt …"
-            className={`mt-6 ${bigTextarea}`}
-          />
-          <p className="mt-2 text-xs text-stone-400">
-            Diese Angaben sieht jeder mit eurem Link – tragt nur ein, was eure
-            Helfer wirklich wissen müssen.
-          </p>
-          <NavButtons onNext={() => setStep(2)} />
-        </div>
-      )}
-
-      {step === 2 && (
-        <div key="s2" className="animate-slide-in">
-          <h2 className="text-2xl font-bold text-stone-800">
-            Was sollten eure Helfer noch wissen?
-          </h2>
-          <p className="mt-1 text-stone-500">
-            Zum Beispiel eure Adresse, oder kleine Bitten – auch das ist
-            freiwillig.
-          </p>
-          <textarea
-            autoFocus
-            value={generalNotes}
-            onChange={(e) => setGeneralNotes(e.target.value)}
-            rows={4}
-            maxLength={2000}
-            placeholder="z.B. Musterstraße 12 · Boxen bitte beschriften, wir geben alles zurück …"
-            className={`mt-6 ${bigTextarea}`}
-          />
-          <p className="mt-2 text-xs text-stone-400">
-            Auch das sieht jeder mit eurem Link – die Adresse könnt ihr z.B.
-            auch erst auf Nachfrage teilen.
-          </p>
-          <NavButtons onNext={() => setStep(3)} />
-        </div>
-      )}
-
-      {step === 3 && (
-        <div key="s3" className="animate-slide-in">
           <h2 className="text-2xl font-bold text-stone-800">
             An welchen Tagen wünscht ihr euch Essen?
           </h2>
@@ -195,42 +140,66 @@ export function AdminWizard({
               ? "Noch keine Tage ausgewählt"
               : `${dates.length} ${dates.length === 1 ? "Tag" : "Tage"} ausgewählt 💛`}
           </p>
-          <NavButtons onNext={() => setStep(4)} nextDisabled={dates.length === 0} />
+          <NavButtons onNext={() => setStep(2)} nextDisabled={dates.length === 0} />
         </div>
       )}
 
-      {step === 4 && (
-        <div key="s4" className="animate-slide-in">
+      {step === 2 && (
+        <div key="s2" className="animate-slide-in">
           <h2 className="text-2xl font-bold text-stone-800">
-            Wann und wie passt es euch am besten?
+            Was sollten eure Helfer wissen?
           </h2>
           <p className="mt-1 text-stone-500">
-            Das gilt erstmal für alle Tage – einzelne Tage könnt ihr danach noch
-            anpassen.
+            Beides ist freiwillig – ihr könnt auch einfach weiterklicken.
           </p>
 
-          <label className="mt-6 block text-sm font-semibold text-stone-600">
-            Beste Uhrzeit für die Übergabe
+          <label className="mt-8 block text-sm font-semibold text-stone-600">
+            Allergien &amp; Unverträglichkeiten
           </label>
-          <input
-            value={timeWindow}
-            onChange={(e) => setTimeWindow(e.target.value)}
-            maxLength={100}
-            placeholder="z.B. zwischen 17 und 19 Uhr"
-            className="mt-2 w-full rounded-2xl border-2 border-rose-100 bg-white px-5 py-4 text-lg text-stone-800 placeholder:text-stone-300 focus:border-rose-300 focus:outline-none"
+          <textarea
+            autoFocus
+            value={allergies}
+            onChange={(e) => setAllergies(e.target.value)}
+            rows={2}
+            maxLength={2000}
+            placeholder="z.B. keine Nüsse, laktosefrei …"
+            className="input-line mt-1 w-full text-lg"
           />
 
-          <p className="mt-6 text-sm font-semibold text-stone-600">
-            Wie soll das Essen zu euch kommen?
+          <label className="mt-7 block text-sm font-semibold text-stone-600">
+            Hinweise – Adresse, kleine Bitten …
+          </label>
+          <textarea
+            value={generalNotes}
+            onChange={(e) => setGeneralNotes(e.target.value)}
+            rows={2}
+            maxLength={2000}
+            placeholder="z.B. Blumenweg 7 · Boxen bitte beschriften …"
+            className="input-line mt-1 w-full text-lg"
+          />
+
+          <p className="mt-3 text-xs text-stone-400">
+            Beides sieht jeder mit eurem Link – tragt nur ein, was eure Helfer
+            wirklich brauchen.
           </p>
-          <div className="mt-2 grid gap-3 sm:grid-cols-2">
+          <NavButtons onNext={() => setStep(3)} />
+        </div>
+      )}
+
+      {step === 3 && (
+        <div key="s3" className="animate-slide-in">
+          <h2 className="text-2xl font-bold text-stone-800">
+            Wie soll das Essen zu euch kommen?
+          </h2>
+
+          <div className="mt-6 grid gap-3 sm:grid-cols-2">
             <button
               type="button"
               onClick={() => setVisitWelcome(false)}
-              className={`rounded-2xl border-2 p-5 text-left transition ${
+              className={`rounded-3xl p-5 text-left transition ${
                 !visitWelcome
-                  ? "border-rose-300 bg-rose-50"
-                  : "border-rose-100 bg-white hover:border-rose-200"
+                  ? "chip-warm shadow-md ring-2 ring-rose-300"
+                  : "card-warm opacity-70 hover:opacity-100"
               }`}
             >
               <div className="text-3xl">🚪</div>
@@ -238,16 +207,16 @@ export function AdminWizard({
                 Vor die Tür stellen
               </p>
               <p className="mt-1 text-sm text-stone-500">
-                Kein Klingeln, keine Pflicht zu reden – einfach ankommen lassen.
+                Kein Klingeln, kein Reden-Müssen.
               </p>
             </button>
             <button
               type="button"
               onClick={() => setVisitWelcome(true)}
-              className={`rounded-2xl border-2 p-5 text-left transition ${
+              className={`rounded-3xl p-5 text-left transition ${
                 visitWelcome
-                  ? "border-rose-300 bg-rose-50"
-                  : "border-rose-100 bg-white hover:border-rose-200"
+                  ? "chip-warm shadow-md ring-2 ring-rose-300"
+                  : "card-warm opacity-70 hover:opacity-100"
               }`}
             >
               <div className="text-3xl">🤗</div>
@@ -255,43 +224,41 @@ export function AdminWizard({
                 Kurzer Besuch ist schön
               </p>
               <p className="mt-1 text-sm text-stone-500">
-                Wir freuen uns über ein kurzes Hallo an der Tür.
+                Wir freuen uns über ein Hallo.
               </p>
             </button>
           </div>
 
-          <NavButtons onNext={() => setStep(5)} />
-        </div>
-      )}
-
-      {step === 5 && (
-        <div key="s5" className="animate-slide-in">
-          <h2 className="text-2xl font-bold text-stone-800">
-            Möchtet ihr Bescheid bekommen?
-          </h2>
-          <p className="mt-1 text-stone-500">
-            Wenn ihr mögt, schicken wir euch eine kleine Mail, sobald sich
-            jemand einträgt. Freiwillig – und jederzeit abschaltbar.
-          </p>
+          <label className="mt-8 block text-sm font-semibold text-stone-600">
+            Beste Uhrzeit <span className="font-normal text-stone-400">(optional)</span>
+          </label>
           <input
-            autoFocus
+            value={timeWindow}
+            onChange={(e) => setTimeWindow(e.target.value)}
+            maxLength={100}
+            placeholder="z.B. zwischen 17 und 19 Uhr"
+            className="input-line mt-1 w-full text-lg"
+          />
+
+          <label className="mt-7 block text-sm font-semibold text-stone-600">
+            E-Mail für Benachrichtigungen{" "}
+            <span className="font-normal text-stone-400">(optional)</span>
+          </label>
+          <input
             type="email"
             value={notifyEmail}
             onChange={(e) => setNotifyEmail(e.target.value)}
             maxLength={200}
-            placeholder="eure@email.de (optional)"
-            className="mt-6 w-full rounded-2xl border-2 border-rose-100 bg-white px-5 py-4 text-lg text-stone-800 placeholder:text-stone-300 focus:border-rose-300 focus:outline-none"
+            placeholder="eure@email.de – wir sagen Bescheid, wenn sich jemand einträgt"
+            className="input-line mt-1 w-full text-lg"
           />
-          <p className="mt-2 text-xs text-stone-400">
-            Die Adresse wird nur für diese Benachrichtigungen genutzt und mit
-            dem Plan gelöscht.
-          </p>
+
           <NavButtons
             nextLabel={pending ? "Wird gespeichert …" : "Fertig – Plan anlegen 🌷"}
             onNext={finish}
           />
         </div>
       )}
-    </div>
+    </main>
   );
 }
