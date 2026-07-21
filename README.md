@@ -1,13 +1,14 @@
 # Kochkette 🍲
 
-*von Herzen gekocht* — eine kleine Web-App, um gemeinsam Essen für eine Familie
-zu organisieren, die gerade Unterstützung braucht (z.B. nach der Geburt eines
-Kindes). Live unter [kochkette.com](https://kochkette.com).
+*von Herzen gekocht* — eine kleine Web-App, um gemeinsam Essen für Menschen
+zu organisieren, die gerade Unterstützung brauchen — etwa nach einer Geburt,
+in einer Krankheitsphase oder nach einem Trauerfall.
+Live unter [kochkette.com](https://kochkette.com).
 
 ## So funktioniert's
 
 1. Auf der Startseite einen neuen Plan erstellen.
-2. Die Familie bekommt zwei Links:
+2. Wer bekocht wird, bekommt zwei Links:
    - **Verwaltungs-Link** (`/a/…`): Allergien, Hinweise und Wunschtage pflegen
      (Datum, Uhrzeit-Fenster, Besuch willkommen oder vor die Tür stellen).
    - **Öffentlicher Link** (`/p/…`): wird an Helferinnen und Helfer verschickt.
@@ -46,7 +47,7 @@ Neon-Connection-String eintragen.
 
 ## Mail-Benachrichtigungen (optional)
 
-Die Familie kann eine E-Mail hinterlegen und bekommt eine Nachricht, sobald
+Die Empfänger können eine E-Mail hinterlegen und bekommen eine Nachricht, sobald
 sich jemand einträgt. Versand über [Resend](https://resend.com):
 
 1. Resend-Konto anlegen, Domain `kochkette.com` verifizieren (DNS-Einträge
@@ -62,6 +63,6 @@ sich jemand einträgt. Versand über [Resend](https://resend.com):
 
 - Daten liegen bei Neon in Frankfurt (EU), Funktionen laufen in `fra1`.
 - Pläne werden 180 Tage nach dem letzten Wunschtag automatisch gelöscht.
-- Familien können ihren Plan jederzeit selbst vollständig löschen.
+- Empfänger können ihren Plan jederzeit selbst vollständig löschen.
 - Vor dem öffentlichen Teilen: Platzhalter in `src/app/impressum/page.tsx`
   mit echten Angaben füllen.

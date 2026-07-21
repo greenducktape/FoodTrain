@@ -71,7 +71,7 @@ export default async function PublicPage({
 
       {dankeDay && (
         <section className="mt-8 rounded-3xl bg-gradient-to-b from-[#F1F8F1] to-[#E5F1E8] p-6 text-center shadow-[0_14px_34px_-16px_rgba(95,164,113,0.35)] ring-1 ring-emerald-100">
-          <p className="text-2xl">🌷</p>
+          <p className="text-2xl">💛</p>
           <p className="mt-2 text-lg font-bold text-emerald-800">
             Danke dir – du bist eingetragen!
           </p>

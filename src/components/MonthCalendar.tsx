@@ -17,12 +17,12 @@ export function MonthCalendar({
   mode,
   minDate,
 }: {
-  /** Markierte Tage: Wunschtage der Familie (frei / schon versorgt) */
+  /** Markierte Tage: Wunschtage der Empfänger (frei / schon versorgt) */
   markers?: Record<string, DayMarker>;
   selected: string[];
   onPick: (isoDate: string) => void;
   /** "pick-marked": nur markierte Tage wählbar (Helfer-Ansicht),
-      "pick-future": alle Tage ab minDate wählbar (Familie wählt Wunschtage) */
+      "pick-future": alle Tage ab minDate wählbar (Empfänger wählen Wunschtage) */
   mode: "pick-marked" | "pick-future";
   minDate?: string;
 }) {

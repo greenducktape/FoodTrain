@@ -43,7 +43,7 @@ export function CreatePlanWizard() {
         disabled={pending || !recipientName.trim()}
         className="btn-warm mt-8 w-full rounded-full px-6 py-3.5 text-lg font-semibold text-white disabled:opacity-40"
       >
-        {pending ? "Einen Moment …" : "Essensplan erstellen 🌷"}
+        {pending ? "Einen Moment …" : "Essensplan erstellen 💛"}
       </button>
     </div>
   );

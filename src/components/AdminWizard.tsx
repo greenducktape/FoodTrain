@@ -103,7 +103,7 @@ export function AdminWizard({
             Schön, dass ihr da seid
           </h1>
           <p className="font-hand mt-2 text-3xl text-rose-400">
-            alles Liebe zum Baby!
+            alles Liebe für euch!
           </p>
           <p className="mx-auto mt-5 max-w-md text-lg leading-relaxed text-stone-500">
             Drei kleine Fragen, dann steht euer Plan für {recipientName}. Alles
@@ -258,7 +258,7 @@ export function AdminWizard({
           </p>
 
           <NavButtons
-            nextLabel={pending ? "Wird gespeichert …" : "Fertig – Plan anlegen 🌷"}
+            nextLabel={pending ? "Wird gespeichert …" : "Fertig – Plan anlegen 💛"}
             onNext={finish}
           />
         </div>

@@ -5,7 +5,7 @@ export default function HomePage() {
   return (
     <main className="mx-auto max-w-lg px-5 py-14">
       <div className="text-center">
-        <div className="text-6xl">🌷</div>
+        <div className="text-6xl">🍲</div>
         <h1 className="mt-5 text-4xl font-extrabold tracking-tight text-stone-800">
           Kochkette
         </h1>
@@ -13,7 +13,7 @@ export default function HomePage() {
           von Herzen gekocht
         </p>
         <p className="mx-auto mt-5 max-w-md text-lg leading-relaxed text-stone-500">
-          Wenn ein kleiner Mensch ankommt, ist ein warmes Essen vor der Tür ein
+          Wenn das Leben gerade viel ist, ist ein warmes Essen vor der Tür ein
           großes Geschenk. Hier organisiert ihr das ganz einfach – gemeinsam.
         </p>
       </div>
@@ -27,12 +27,12 @@ export default function HomePage() {
           {
             emoji: "🗓️",
             title: "Wunschtage auswählen",
-            text: "Die Familie wählt im Kalender, an welchen Tagen sie sich Essen wünscht – und trägt Allergien und Wünsche ein.",
+            text: "Wer bekocht wird, wählt im Kalender die Tage aus, an denen Essen guttut – und trägt Allergien und Wünsche ein.",
           },
           {
             emoji: "💌",
             title: "Link verschicken",
-            text: "Ein Link an Freunde, Familie oder die Gemeinde – mehr braucht es nicht. Kein Konto, keine App.",
+            text: "Ein Link an Freunde, Nachbarn oder die Gemeinde – mehr braucht es nicht. Kein Konto, keine App.",
           },
           {
             emoji: "🍲",
@@ -53,7 +53,7 @@ export default function HomePage() {
       </div>
 
       <p className="mt-16 text-center text-sm text-stone-400">
-        Mit 💛 gemacht für die ersten Wochen zu Hause
+        Mit 💛 gemacht für alle, die gerade Unterstützung brauchen
       </p>
       <p className="mt-3 text-center text-xs text-stone-300">
         <Link href="/datenschutz" className="hover:text-stone-500">

@@ -36,7 +36,7 @@ async function sendEmail(to: string, subject: string, text: string): Promise<voi
 }
 
 /**
- * Schickt der Familie nach dem Einrichten ihres Plans den
+ * Schickt den Empfängern nach dem Einrichten ihres Plans den
  * Verwaltungs-Link (und den Link zum Teilen) per Mail, damit
  * beide Links nicht verloren gehen.
  */
@@ -67,9 +67,9 @@ export async function sendWelcomeEmail(plan: Plan, to: string): Promise<void> {
 }
 
 /**
- * Benachrichtigt die Familie per Mail, wenn sich jemand einträgt.
- * Läuft nur, wenn die Familie eine E-Mail hinterlegt und
- * Benachrichtigungen nicht abgeschaltet hat.
+ * Benachrichtigt die Empfänger per Mail, wenn sich jemand einträgt.
+ * Läuft nur, wenn eine E-Mail hinterlegt ist und
+ * Benachrichtigungen nicht abgeschaltet sind.
  */
 export async function sendSignupNotification(
   plan: Plan,
