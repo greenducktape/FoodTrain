@@ -252,6 +252,10 @@ export function AdminWizard({
             placeholder="eure@email.de – wir sagen Bescheid, wenn sich jemand einträgt"
             className="input-line mt-1 w-full text-lg"
           />
+          <p className="mt-2 text-sm text-stone-400">
+            Ihr bekommt eure Links direkt per Mail – so geht der
+            Verwaltungs-Link nicht verloren.
+          </p>
 
           <NavButtons
             nextLabel={pending ? "Wird gespeichert …" : "Fertig – Plan anlegen 🌷"}

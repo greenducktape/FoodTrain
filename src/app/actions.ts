@@ -7,7 +7,7 @@ import { db } from "@/db";
 import { planDays, plans, signups, type Plan } from "@/db/schema";
 import { addDaysIso } from "@/lib/calendar";
 import { todayIso } from "@/lib/dates";
-import { sendSignupNotification } from "@/lib/email";
+import { sendSignupNotification, sendWelcomeEmail } from "@/lib/email";
 import { generateToken } from "@/lib/token";
 
 function cleanText(value: FormDataEntryValue | null, maxLength = 2000): string {
@@ -132,15 +132,20 @@ export async function completeSetup(
     .slice(0, 90);
 
   const notifyEmail = payload.notifyEmail.trim().slice(0, 200);
+  const validEmail = notifyEmail.includes("@") ? notifyEmail : "";
 
   await db
     .update(plans)
     .set({
       allergies: payload.allergies.trim().slice(0, 2000),
       generalNotes: payload.generalNotes.trim().slice(0, 2000),
-      notifyEmail: notifyEmail.includes("@") ? notifyEmail : "",
+      notifyEmail: validEmail,
     })
     .where(eq(plans.id, plan.id));
+
+  if (validEmail) {
+    await sendWelcomeEmail(plan, validEmail);
+  }
 
   if (dates.length > 0) {
     await db.insert(planDays).values(
